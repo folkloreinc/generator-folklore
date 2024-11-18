@@ -1,15 +1,14 @@
-import BaseGenerator from 'yeoman-generator';
-import Immutable from 'immutable';
-import path from 'path';
-import _ from 'lodash';
+import BaseGenerator from "yeoman-generator";
+import Immutable from "immutable";
+import path from "path";
+import _ from "lodash";
 
 class Generator extends BaseGenerator {
-
     static prompts = {
         project_name: {
-            type: 'input',
-            name: 'project-name',
-            message: 'What is the name of the project?',
+            type: "input",
+            name: "project-name",
+            message: "What is the name of the project?",
             default: () => {
                 const parts = process.cwd().split(path.sep);
                 return parts[parts.length - 1];
@@ -18,14 +17,15 @@ class Generator extends BaseGenerator {
     };
 
     static getConfigPath() {
-        const home = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
-        return path.join(home, '.config/yeoman-generator-folklore/config.json');
+        const home =
+            process.env[process.platform === "win32" ? "USERPROFILE" : "HOME"];
+        return path.join(home, ".config/yeoman-generator-folklore/config.json");
     }
 
     constructor(...args) {
         super(...args);
 
-        this.option('quiet', {
+        this.option("quiet", {
             type: Boolean,
             defaults: false,
         });
@@ -42,7 +42,10 @@ class Generator extends BaseGenerator {
         const config = Immutable.fromJS(this.getConfig());
         let newConfig = Object.assign({}, config);
         _.each(data, (value, key) => {
-            if (forceUpdate || (value && value.length && value !== _.get(config, key))) {
+            if (
+                forceUpdate ||
+                (value && value.length && value !== _.get(config, key))
+            ) {
                 newConfig = newConfig.set(key, value);
             }
         });
@@ -56,7 +59,6 @@ class Generator extends BaseGenerator {
 
         return newData;
     }
-
 }
 
 export default Generator;
